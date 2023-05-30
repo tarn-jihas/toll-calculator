@@ -26,10 +26,11 @@ type DataReceiver struct {
 
 func NewDataReceiver() (*DataReceiver, error) {
 	var (
-		p   DataProducer
-		err error
+		p          DataProducer
+		err        error
+		kafkaTopic = "obudata"
 	)
-	p, err = NewKafkaProducer("obudata")
+	p, err = NewKafkaProducer(kafkaTopic)
 	if err != nil {
 		return nil, err
 	}
