@@ -25,11 +25,15 @@ type DataReceiver struct {
 }
 
 func NewDataReceiver() (*DataReceiver, error) {
-
-	p, err := NewKafkaProducer()
+	var (
+		p   DataProducer
+		err error
+	)
+	p, err = NewKafkaProducer("obudata")
 	if err != nil {
 		return nil, err
 	}
+	p = NewLogMiddleware(p)
 	return &DataReceiver{
 		msgch: make(chan types.OBUData, 128),
 		prod:  p,
