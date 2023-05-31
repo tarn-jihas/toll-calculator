@@ -7,8 +7,15 @@ import "log"
 
 const kafkaTopic = "obudata"
 
+// Transport (HTTP, GRPC, Kafka) -> attach business logic to this transport
 func main() {
-	kafkaConsumer, err := NewKafkaConsumer(kafkaTopic)
+	var (
+		err error
+		svc CalculatorServicer
+	)
+
+	svc = NewCalcService()
+	kafkaConsumer, err := NewKafkaConsumer(kafkaTopic, svc)
 
 	if err != nil {
 		log.Fatal(err)
