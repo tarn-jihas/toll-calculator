@@ -18,6 +18,7 @@ func main() {
 		svc   = NewInvoiceAggregator(store)
 	)
 	svc = NewLogMiddleware(svc)
+
 	makeHTTPTransport(*listenAddr, svc)
 }
 

@@ -1,5 +1,5 @@
 obu:
-	@go build -o bin/obu obu/main.go ;
+	@go build -o bin/obu ./obu ;
 	@./bin/obu ;
 
 receiver:
@@ -16,4 +16,4 @@ agg:
 
 
 
-.PHONY: obu, invoicer
+.PHONY: obu invoicer

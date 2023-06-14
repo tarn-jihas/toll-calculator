@@ -1,11 +1,15 @@
 package main
 
-import "log"
+import (
+	"log"
 
-// type DistanceCalculator struct {
-// 	consumer DataConsumer
+	"github.com/keselj-strahinja/toll-calculator/aggregator/client"
+)
 
-const kafkaTopic = "obudata"
+const (
+	kafkaTopic         = "obudata"
+	aggregatorEndpoint = "http://127.0.0.1:3000/aggregate"
+)
 
 // Transport (HTTP, GRPC, Kafka) -> attach business logic to this transport
 func main() {
@@ -16,8 +20,8 @@ func main() {
 
 	svc = NewCalcService()
 	svc = NewLogMiddleware(svc)
-	
-	kafkaConsumer, err := NewKafkaConsumer(kafkaTopic, svc)
+
+	kafkaConsumer, err := NewKafkaConsumer(kafkaTopic, svc, client.NewClient(aggregatorEndpoint))
 
 	if err != nil {
 		log.Fatal(err)
