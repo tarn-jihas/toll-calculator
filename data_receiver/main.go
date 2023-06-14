@@ -70,7 +70,6 @@ func (dr *DataReceiver) wsReceiveLoop() {
 			log.Println("read error: ", err)
 			continue
 		}
-		// fmt.Printf("receuved OBU data from [%d] :: <lat%.2f, long %.2f> \n", data.OBUID, data.Lat, data.Lon)
 		if err := dr.producData(data); err != nil {
 			fmt.Println("kafka produce error", err)
 		}
