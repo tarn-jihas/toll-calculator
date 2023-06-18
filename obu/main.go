@@ -61,6 +61,9 @@ func generateOBUIDS(n int) []int {
 }
 
 func init() {
+	x := types.Test{
+		Someint: 40,
+	}
 	rand.Seed(time.Now().UnixNano())
 
 }
