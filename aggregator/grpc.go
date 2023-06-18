@@ -1,6 +1,10 @@
 package main
 
-import "github.com/keselj-strahinja/toll-calculator/types"
+import (
+	"context"
+
+	"github.com/keselj-strahinja/toll-calculator/types"
+)
 
 type GRPCAggregatorServer struct {
 	types.UnimplementedAggregatorServer
@@ -19,11 +23,18 @@ func NewGRPCAggregatorServer(svc Aggregator) *GRPCAggregatorServer {
 // Webpack transprot -> types.Webpack -> types.Distances
 
 // business layer -> business layer type (main type everyone needs to convert to)
-func (s *GRPCAggregatorServer) AggregateDistance(req *types.AggregateRequest) error {
+func (s *GRPCAggregatorServer) Aggregate(ctx context.Context, req *types.AggregateRequest) (*types.None, error) {
 	distance := types.Distance{
 		OBUID: int(req.ObuID),
 		Value: req.Value,
 		Unix:  req.Unix,
 	}
-	return s.svc.AggregateDistance(distance)
+
+	err := s.svc.AggregateDistance(distance)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.None{}, nil
 }
