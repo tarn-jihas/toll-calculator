@@ -11,6 +11,11 @@ service Aggregator {
 
 message None{}
 
+
+message GetInvoiceRequest {
+    int64 ObuID = 1;
+}
+
 message AggregateRequest{
     int32 ObuID = 1;
     double Value = 2;
