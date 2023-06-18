@@ -22,6 +22,7 @@ func main() {
 		store = NewMemoryStore()
 		svc   = NewInvoiceAggregator(store)
 	)
+
 	svc = NewLogMiddleware(svc)
 	go makeGRPCTransport(*grpcListenAddr, svc)
 	makeHTTPTransport(*httpListenAddr, svc)
@@ -34,10 +35,11 @@ func makeGRPCTransport(listenAddr string, svc Aggregator) error {
 	if err != nil {
 		return err
 	}
-
-	defer conn.Close()
+	defer func() {
+		conn.Close()
+	}()
 	// Make a new GRPC native server with options
-	server := grpc.NewServer()
+	server := grpc.NewServer([]grpc.ServerOption{}...)
 	// Register our GRPC server implememtation to the GRPC package
 	types.RegisterAggregatorServer(server, NewGRPCAggregatorServer(svc))
 
