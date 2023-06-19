@@ -1,3 +1,9 @@
+all: receiver obu agg gate
+
+gate:
+	@go build -o bin/gateway ./gateway ;
+	@./bin/gateway ;
+
 obu:
 	@go build -o bin/obu ./obu ;
 	@./bin/obu ;
